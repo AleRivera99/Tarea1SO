@@ -1,0 +1,6 @@
+ 
+Resultado de la Suma: 10 + 30 = 40
+
+Resultado de la Resta: 10 - 30 = -20
+
+Resultado de la Multiplicacion: 10 * 30 = 300
