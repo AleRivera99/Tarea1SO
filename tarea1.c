@@ -2,28 +2,29 @@
 #include <stdio.h>
 #include <pthread.h>
 
-typedef struct thread_data {
-   int a;
-   int b;
-   int sum;
-   int sub;
-   int mult;
+typedef struct thread_data
+{
+   int numero1;
+   int numero2;
+   int suma;
+   int resta;
+   int multiplicacion;
 
 } thread_data;
 
 void *Thread(void *arg)
 {
-   thread_data *tdata=(thread_data *)arg;
+   thread_data *tdata = (thread_data *)arg;
 
-   int a=tdata->a;
-   int b=tdata->b;
-   int sum=a+b;
-   int sub=a-b;
-   int mult=a*b;
-   
-   tdata->sum=sum;
-   tdata->sub=sub;
-   tdata->mult=mult;
+   int numero1 = tdata->numero1;
+   int numero2 = tdata->numero2;
+   int suma = numero1 + numero2;
+   int resta = numero1 - numero2;
+   int multiplicacion = numero1 * numero2;
+
+   tdata->suma = suma;
+   tdata->resta = resta;
+   tdata->multiplicacion = multiplicacion;
    pthread_exit(NULL);
 }
 
@@ -31,45 +32,29 @@ int main()
 {
    pthread_t tid;
    thread_data tdata;
-   
-   printf("Introduzca el primer numero entero: ");
-   scanf("%d", &tdata.a);
-   
-   printf("Introduzca el segundo numero entero: ");
-   scanf("%d", &tdata.b);
 
+   printf("Introduzca el primer numero entero: ");
+   scanf("%d", &tdata.numero1);
+
+   printf("Introduzca el segundo numero entero: ");
+   scanf("%d", &tdata.numero2);
 
    pthread_create(&tid, NULL, Thread, (void *)&tdata);
    pthread_join(tid, NULL);
 
-   printf("%d + %d = %d\n", tdata.a, tdata.b, tdata.sum);
-   printf("%d - %d = %d\n", tdata.a, tdata.b, tdata.sub);
-   printf("%d * %d = %d\n", tdata.a, tdata.b, tdata.mult);
+   printf("%d + %d = %d\n", tdata.numero1, tdata.numero2, tdata.suma);
+   printf("%d - %d = %d\n", tdata.numero1, tdata.numero2, tdata.resta);
+   printf("%d * %d = %d\n", tdata.numero1, tdata.numero2, tdata.multiplicacion);
 
-   int suma =  tdata.sum;
-   int resta = tdata.sub;
-   int multi = tdata.mult;
-   int x;
-   FILE *fichero;
-   fichero = fopen("tarea1.txt", "w+");
-  
-      while (!feof(fichero))
-      {
-         fscanf(fichero, "%d", &x);
+   int suma = tdata.suma;
+   int resta = tdata.resta;
+   int multi = tdata.multiplicacion;
+   FILE *puntero;
+   puntero = fopen("tarea1.txt", "w+");
+   fprintf(puntero, " \nResultado de la Suma: %d + %d = %d\n", tdata.numero1, tdata.numero2, tdata.suma);
+   fprintf(puntero, "\nResultado de la Resta: %d - %d = %d\n", tdata.numero1, tdata.numero2, tdata.resta);
+   fprintf(puntero, "\nResultado de la Multiplicacion: %d * %d = %d\n", tdata.numero1, tdata.numero2, tdata.multiplicacion);
 
-      }
-      
-    
-         fprintf(fichero," \nResultado de la Suma: %d + %d = %d\n", tdata.a, tdata.b, tdata.sum);
-         fprintf(fichero, "\nResultado de la Resta: %d - %d = %d\n", tdata.a, tdata.b, tdata.sub);
-         fprintf(fichero,"\nResultado de la Multiplicacion: %d * %d = %d\n", tdata.a, tdata.b, tdata.mult);
-       
-    
-
-   
-   fflush(fichero);
-   fclose(fichero);
-   printf("EXITO !!");
-   printf("Proceso completado");
+   printf("El archivo de Texto txt fue creado");
    return 0;
 }
